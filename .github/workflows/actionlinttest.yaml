@@ -40,7 +40,7 @@ jobs:
         
         echo "actionlint.... done"
         echo $actionlintOutput
-        Write-Host $actionlintOutput
+        Write-Output $actionlintOutput
         $exitCode = $LASTEXITCODE
         echo $exitCode
         # ANSI escape codes for color
