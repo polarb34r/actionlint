@@ -27,4 +27,19 @@ jobs:
 
     - name: Run Actionlint
       run: |
-        actionlint
+        actionlint_output=$(actionlint)
+
+        # Color codes
+        RED='\033[0;31m'
+        GREEN='\033[0;32m'
+        YELLOW='\033[0;33m'
+        NC='\033[0m' # No Color
+        
+        # Example of coloring the output
+        if echo "$actionlint_output" | grep -q "error"; then
+            echo -e "${RED}$actionlint_output${NC}"
+        elif echo "$actionlint_output" | grep -q "warning"; then
+            echo -e "${YELLOW}$actionlint_output${NC}"
+        else
+            echo -e "${GREEN}$actionlint_output${NC}"
+        fi
