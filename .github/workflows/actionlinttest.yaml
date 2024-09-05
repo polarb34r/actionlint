@@ -47,9 +47,9 @@ jobs:
         actionlint -format '{{range $err := .}}Error: {{$err.Message}} (line {{$err.Line}}, col {{$err.Column}}){{end}}'
         echo "actionlint.... ignore property"
         actionlint -ignore "property \"platform\" is not defined"
-        echo actionlint.... ignore file"
+        echo "actionlint.... ignore file"
         actionlint -ignore "file:.github/workflows/bad.yml"
-
+        
         
         # same as Write-Output, echo $actionlintOutput
         Write-Output $actionlintOutput
@@ -57,7 +57,7 @@ jobs:
         
         # Check the exit code to handle failures
         if ($exitCode -ne 0) {
-            Write-Host "Exit error"
+            Write-Host "Exit... error"
         } else {
             Write-Host "No error in linting good work!"
         }
