@@ -39,15 +39,27 @@ jobs:
         $actionlintOutput = & actionlint -color 2>&1  # Redirect stderr to stdout to capture all output
         
         echo "actionlint.... done"
+        echo "actionlint.... color json"
+        actionlint -color -format '{{json .}}'
+        echo "actionlint.... markupformat"
+        actionlint -format '{{range $err := .}}### Error at line {{$err.Line}}, col {{$err.Column}} of `{{$err.Filepath}}`\n\n{{$err.Message}}\n\n```\n{{$err.Snippet}}\n```\n\n{{end}}'
+        echo "actionlint.... markupformat"
+        actionlint -format '{{range $err := .}}Error: {{$err.Message}} (line {{$err.Line}}, col {{$err.Column}}){{end}}'
+        echo "actionlint.... ignore property"
+        actionlint -ignore "property \"platform\" is not defined"
+        echo actionlint.... ignore file"
+        actionlint -ignore "file:.github/workflows/bad.yml"
+
+        
         # same as Write-Output, echo $actionlintOutput
         Write-Output $actionlintOutput
         $exitCode = $LASTEXITCODE
         
         # Check the exit code to handle failures
         if ($exitCode -ne 0) {
-            Write-Host "No error in linting good work!"
-        } else {
             Write-Host "Exit error"
+        } else {
+            Write-Host "No error in linting good work!"
         }
         
         # Optional: return non-zero exit code if actionlint failed
