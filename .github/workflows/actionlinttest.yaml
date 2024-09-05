@@ -42,20 +42,12 @@ jobs:
         echo $actionlintOutput
         Write-Output $actionlintOutput
         $exitCode = $LASTEXITCODE
-        echo $exitCode
-        # ANSI escape codes for color
-        $Red = "`e[31m"
-        $Green = "`e[32m"
-        $Yellow = "`e[33m"
-        $NoColor = "`e[0m"
         
         # Check the exit code to handle failures
         if ($exitCode -ne 0) {
-            Write-Host "$Red$actionlintOutput$NoColor"
-        } elseif ($actionlintOutput -match "warning") {
-            Write-Host "$Yellow$actionlintOutput$NoColor"
+            Write-Host "No error in linting good work!"
         } else {
-            Write-Host "$Green$actionlintOutput$NoColor"
+            Write-Host "Exit error"
         }
         
         # Optional: return non-zero exit code if actionlint failed
