@@ -1,0 +1,30 @@
+name: Lint GitHub Actions Workflows
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'release/*'
+
+jobs:
+  lint:
+    name: Run Actionlint
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'  # Ensure the version of Go matches the requirements of Actionlint
+
+    - name: Install Actionlint
+      run: |
+        go install github.com/rhysd/actionlint/cmd/actionlint@latest
+
+    - name: Run Actionlint
+      run: |
+        actionlint
