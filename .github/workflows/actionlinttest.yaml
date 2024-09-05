@@ -25,9 +25,9 @@ jobs:
       run: |
         go install github.com/rhysd/actionlint/cmd/actionlint@latest
 
-    - name: Run Actionlint
-      run: |
-        actionlint
+    #  - name: Run Actionlint
+     #   run: |
+      #    actionlint
         
     - name: Run Actionlint
       run: |
