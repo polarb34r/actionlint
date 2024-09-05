@@ -27,6 +27,10 @@ jobs:
 
     - name: Run Actionlint
       run: |
+        actionlint
+        
+    - name: Run Actionlint
+      run: |
         actionlint_output=$(actionlint)
 
         # Color codes
