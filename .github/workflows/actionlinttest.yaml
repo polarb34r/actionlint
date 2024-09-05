@@ -46,9 +46,9 @@ jobs:
         echo "actionlint.... custom format"
         actionlint -format '{{range $err := .}}Error: {{$err.Message}} (line {{$err.Line}}, col {{$err.Column}}){{end}}'
         echo "actionlint.... ignore property"
-        actionlint -ignore "property \\"platform\\" is not defined"
+        actionlint -ignore 'property \"platform\" is not defined'
         echo "actionlint.... ignore file"
-        actionlint -ignore "file:.github/workflows/bad.yaml"
+        actionlint --ignore .github/workflows/bad.yaml
         
         
         # same as Write-Output, echo $actionlintOutput
