@@ -38,7 +38,7 @@ jobs:
         echo "actionlint...."
         $actionlintOutput = & actionlint 2>&1  # Redirect stderr to stdout to capture all output
         echo "actionlint.... done"
-        echo $actionlintOutput
+        Write-Host $actionlintOutput
         $exitCode = $LASTEXITCODE
         echo $exitCode
         # ANSI escape codes for color
