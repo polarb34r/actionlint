@@ -43,12 +43,14 @@ jobs:
         actionlint -color -format '{{json .}}'
         echo "actionlint.... markupformat"
         actionlint -format '{{range $err := .}}### Error at line {{$err.Line}}, col {{$err.Column}} of `{{$err.Filepath}}`\n\n{{$err.Message}}\n\n```\n{{$err.Snippet}}\n```\n\n{{end}}'
-        echo "actionlint.... markupformat"
+        echo "actionlint.... custom format"
         actionlint -format '{{range $err := .}}Error: {{$err.Message}} (line {{$err.Line}}, col {{$err.Column}}){{end}}'
         echo "actionlint.... ignore property"
         actionlint -ignore "property \"platform\" is not defined"
+        echo "actionlint.... ignore property"
+        actionlint -ignore "property \"platform\""
         echo "actionlint.... ignore file"
-        actionlint -ignore "file:.github/workflows/bad.yml"
+        actionlint -ignore "file:.github/workflows/bad.yaml"
         
         
         # same as Write-Output, echo $actionlintOutput
