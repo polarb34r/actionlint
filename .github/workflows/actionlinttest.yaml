@@ -43,3 +43,4 @@ jobs:
         else
             echo -e "${GREEN}$actionlint_output${NC}"
         fi
+        echo $actionlint_output
