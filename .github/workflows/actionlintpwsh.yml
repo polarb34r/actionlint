@@ -1,0 +1,19 @@
+name: Lint GitHub Actions workflows
+on: [push, pull_request]
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4   
+
+      - name: Download actionlint
+        id: get_actionlint
+        run: |
+          curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o download-actionlint.bash
+          chmod +x download-actionlint.bash
+        shell: pwsh
+
+      - name: Check workflow files
+        run: ./download-actionlint.bash -color
+        shell: pwsh
