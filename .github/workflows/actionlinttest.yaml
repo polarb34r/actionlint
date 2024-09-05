@@ -48,7 +48,10 @@ jobs:
         echo "actionlint.... ignore property"
         actionlint -ignore 'property \"platform\" is not defined'
         echo "actionlint.... ignore file"
-        actionlint --ignore .github/workflows/bad.yaml
+        pwd
+        ls -la
+        dir
+        actionlint -ignore ./.github/workflows/bad.yaml
         
         
         # same as Write-Output, echo $actionlintOutput
