@@ -31,7 +31,8 @@ jobs:
         
     - name: Run Actionlint
       run: |
-        actionlint_output=$(actionlint)
+        actionlint_output=$(actionlint 2>&1)
+
 
         # Color codes
         RED='\033[0;31m'
