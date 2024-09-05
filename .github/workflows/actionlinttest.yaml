@@ -30,22 +30,28 @@ jobs:
       #    actionlint
         
     - name: Run Actionlint
+      shell: pwsh
       run: |
-        actionlint_output=$(actionlint 2>&1)
-
-
-        # Color codes
-        RED='\033[0;31m'
-        GREEN='\033[0;32m'
-        YELLOW='\033[0;33m'
-        NC='\033[0m' # No Color
+        # Run actionlint and capture the output and exit code
+        $actionlintOutput = & actionlint 2>&1  # Redirect stderr to stdout to capture all output
+        $exitCode = $LASTEXITCODE
         
-        # Example of coloring the output
-        if echo "$actionlint_output" | grep -q "error"; then
-            echo -e "${RED}$actionlint_output${NC}"
-        elif echo "$actionlint_output" | grep -q "warning"; then
-            echo -e "${YELLOW}$actionlint_output${NC}"
-        else
-            echo -e "${GREEN}$actionlint_output${NC}"
-        fi
-        echo $actionlint_output
+        # ANSI escape codes for color
+        $Red = "`e[31m"
+        $Green = "`e[32m"
+        $Yellow = "`e[33m"
+        $NoColor = "`e[0m"
+        
+        # Check the exit code to handle failures
+        if ($exitCode -ne 0) {
+            Write-Host "$Red$actionlintOutput$NoColor"
+        } elseif ($actionlintOutput -match "warning") {
+            Write-Host "$Yellow$actionlintOutput$NoColor"
+        } else {
+            Write-Host "$Green$actionlintOutput$NoColor"
+        }
+        
+        # Optional: return non-zero exit code if actionlint failed
+        exit $exitCode
+
+
