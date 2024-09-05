@@ -37,7 +37,9 @@ jobs:
         echo $exitCode
         echo "actionlint...."
         $actionlintOutput = & actionlint -color 2>&1  # Redirect stderr to stdout to capture all output
+        
         echo "actionlint.... done"
+        echo $actionlintOutput
         Write-Host $actionlintOutput
         $exitCode = $LASTEXITCODE
         echo $exitCode
