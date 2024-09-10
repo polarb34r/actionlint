@@ -28,6 +28,21 @@ jobs:
     #  - name: Run Actionlint
      #   run: |
       #    actionlint
+              
+    - name: Run Actionlint
+      shell: bash
+      run: |
+        actionlint || true   
+        
+    - name: Run Actionlint
+      shell: bash
+      run: |
+        actionlint
+        if [ $? -eq 1 ]; then
+            echo "Ignoring actionlint error"
+        fi
+
+
         
     - name: Run Actionlint
       shell: pwsh
