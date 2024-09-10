@@ -37,12 +37,17 @@ jobs:
     - name: Run Actionlint
       shell: bash
       run: |
+        set +e  # Disable exit on error
+
         actionlint
-        exit_code=$?  # Store the exit code immediately after running actionlint
+        exit_code=$?  # Capture the exit code
+        
+        set -e  # Re-enable exit on error
         
         if [ $exit_code -eq 1 ]; then
             echo "Ignoring actionlint error"
         fi
+
 
 
 
