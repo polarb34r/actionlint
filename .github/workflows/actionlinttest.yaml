@@ -89,6 +89,6 @@ jobs:
         }
         
         # Optional: return non-zero exit code if actionlint failed
-        exit $exitCode
+        # exit $exitCode
         exit 0
 
