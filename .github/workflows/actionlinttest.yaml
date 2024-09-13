@@ -48,8 +48,38 @@ jobs:
             echo "Ignoring actionlint error"
         fi
 
-
-
+    - name: Run Actionlint
+      shell: pwsh
+      run: |
+        # Run actionlint and capture the output and exit code
+        $actionlintOutput = & actionlint -color -format '{{json .}}' 2>&1 
+        # Sample JSON data (replace with actual JSON output from actionlint)
+        
+        # Convert the JSON string to PowerShell objects
+        $data = $actionlintOutput | ConvertFrom-Json
+        
+        # Initialize markdown table
+        $markdownTable = @"
+        | File       | Line | Message                | Snipet   |
+        |------------|------|------------------------|----------|
+        "@
+        
+        # Iterate through each JSON object and add it to the markdown table
+        foreach ($item in $data) {
+            $markdownTable += "| $($item.filepath) | $($item.line) | $($item.message) | $($item.snippet) |`n"
+        }
+        
+        # Output the markdown table
+        $markdownTable
+         # Check the exit code to handle failures
+        if ($exitCode -ne 0) {
+            Write-Host "Exit... error"
+        } else {
+            Write-Host "No error in linting good work!"
+        }
+        
+        # Optional: return non-zero exit code if actionlint failed
+        exit $exitCode
 
         
     - name: Run Actionlint
@@ -89,6 +119,6 @@ jobs:
         }
         
         # Optional: return non-zero exit code if actionlint failed
-        # exit $exitCode
-        exit 0
+        exit $exitCode
+
 
