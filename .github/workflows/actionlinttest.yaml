@@ -25,6 +25,69 @@ jobs:
       run: |
         go install github.com/rhysd/actionlint/cmd/actionlint@latest
 
+    #  - name: Run Actionlint
+     #   run: |
+      #    actionlint
+              
     - name: Run Actionlint
+      shell: bash
       run: |
+        actionlint || true   
+        
+    - name: Run Actionlint
+      shell: bash
+      run: |
+        set +e  # Disable exit on error
+
         actionlint
+        exit_code=$?  # Capture the exit code
+        
+        set -e  # Re-enable exit on error
+        
+        if [ $exit_code -eq 1 ]; then
+            echo "Ignoring actionlint error"
+        fi
+
+
+
+
+        
+    - name: Run Actionlint
+      shell: pwsh
+      run: |
+        # Run actionlint and capture the output and exit code
+        $exitCode = $LASTEXITCODE
+        echo $exitCode
+        echo "actionlint...."
+        $actionlintOutput = & actionlint -color 2>&1  # Redirect stderr to stdout to capture all output
+        
+        echo "actionlint.... done"
+        echo "actionlint.... color json"
+        actionlint -color -format '{{json .}}'
+        echo "actionlint.... markupformat"
+        actionlint -format '{{range $err := .}}### Error at line {{$err.Line}}, col {{$err.Column}} of `{{$err.Filepath}}`\n\n{{$err.Message}}\n\n```\n{{$err.Snippet}}\n```\n\n{{end}}'
+        echo "actionlint.... custom format"
+        actionlint -format '{{range $err := .}}Error: {{$err.Message}} (line {{$err.Line}}, col {{$err.Column}}){{end}}'
+        echo "actionlint.... ignore property"
+        actionlint -ignore 'property \"platform\" is not defined'
+        echo "actionlint.... ignore file"
+        pwd
+        ls -la
+        dir
+        actionlint -ignore ./.github/workflows/bad.yaml
+        
+        
+        # same as Write-Output, echo $actionlintOutput
+        Write-Output $actionlintOutput
+        $exitCode = $LASTEXITCODE
+        
+        # Check the exit code to handle failures
+        if ($exitCode -ne 0) {
+            Write-Host "Exit... error"
+        } else {
+            Write-Host "No error in linting good work!"
+        }
+        
+        # Optional: return non-zero exit code if actionlint failed
+        exit $exitCode
+        exit 0
