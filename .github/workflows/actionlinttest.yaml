@@ -29,12 +29,12 @@ jobs:
      #   run: |
       #    actionlint
               
-    - name: Run Actionlint
+    - name: Run Actionlint bash
       shell: bash
       run: |
         actionlint || true   
         
-    - name: Run Actionlint
+    - name: Run Actionlint disable error
       shell: bash
       run: |
         set +e  # Disable exit on error
@@ -48,7 +48,7 @@ jobs:
             echo "Ignoring actionlint error"
         fi
 
-    - name: Run Actionlint
+    - name: Run Actionlint markdown
       shell: pwsh
       run: |
         # Run actionlint and capture the output and exit code
@@ -66,7 +66,9 @@ jobs:
         
         # Iterate through each JSON object and add it to the markdown table
         foreach ($item in $data) {
-            $markdownTable += "| $($item.filepath) | $($item.line) | $($item.message) | $($item.snippet) |`n"
+            # Replace pipes in severity to prevent breaking markdown table
+            $snippet = $item.snippet -replace '\|', '/' -replace '\n', '<br>'  # Replaces pipe with a slash or any other character of your choice
+            $markdownTable += "| $($item.filepath) | $($item.line) | $($item.message) | $snippet |`n"
         }
         
         # Output the markdown table
@@ -83,7 +85,7 @@ jobs:
 
 
         
-    - name: Run Actionlint
+    - name: Run Actionlint mjultitest
       shell: pwsh
       run: |
         # Run actionlint and capture the output and exit code
